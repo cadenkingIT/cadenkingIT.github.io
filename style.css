@@ -377,7 +377,7 @@ main section:last-child {
 }
 
 .blog-posts {
-    max-height: 1120px;
+    max-height: 1200px;
     overflow-y: auto;
     padding-right: 10px;
     border: 1px solid #d9e2ec;
