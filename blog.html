@@ -37,14 +37,83 @@
                     aria-label="Search blog posts">
             </div>
 
-            <p>Pretty much guaranteed to have typos and grammar mistakes. This is why I study computers :/. That's how
-                you know it's real and not AI-generated...
-            </p>
+            <p>Pretty much guaranteed to have typos and grammar mistakes.</p>
 
             <p class="blog-count" id="blog-count"></p>
 
             <!-- Newest posts appear first. Copy this <article> block to add a new post above it. -->
             <div class="blog-posts" id="blog-posts">
+
+                <article class="blog-post" data-title="Home Lab Router Configuration">
+                    <p class="blog-post-meta">Oct 6th, 2026</p>
+                    <h3>Home Lab Router Configuration</h3>
+                    <span class="tag">Networking</span><span class="tag">Home Lab</span><span class="tag">Router
+                        Configuration</span>
+                    <p>Today I continued building my home networking lab by configuring a Cisco ISR4331 router and
+                        establishing a reliable management connection from my Windows PC. The goal was to get the router
+                        into a clean, usable state and create a foundation for future networking and security projects.\
+                    </p>
+
+                    <p>I started by working through the router's initial configuration and resetting it to a clean
+                        state. Because the router had an unknown username and password from its previous configuration,
+                        I had to perform a password recovery and factory reset. I used the router's ROMMON environment
+                        to temporarily disable the existing startup configuration, boot the router, erase the old
+                        configuration, and restore the configuration register to its factory default value. This gave me
+                        a clean starting point for the rest of the lab.\</p>
+
+                    \<p>After the reset, I configured the basic management settings on the router. This included
+                        creating a local administrator account, securing the console and VTY lines, configuring a
+                        hostname and domain name, generating RSA keys, and enabling SSH version 2. I also saved the
+                        configuration to NVRAM so that the settings would persist after a reboot.\</p>
+
+                    <p>Next, I connected my Windows PC directly to one of the router's Ethernet interfaces. I created a
+                        small isolated lab network between the PC and router rather than immediately connecting the
+                        router to my home network. This allowed me to test the router safely without changing or
+                        disrupting my existing home network.\</p>
+
+                    <p>Initially, the Ethernet connection on my Windows PC did not have an IP address because there was
+                        no DHCP server configured on the router. I configured static addressing on both sides of the
+                        connection. After doing so, I was able to successfully ping the router from my PC.\</p>
+
+                    <p>I then encountered another issue when I tried to ping the PC from the router. The physical
+                        connection and IP configuration were working, but the router's ping requests were not receiving
+                        a response. I eventually determined that Windows Firewall was blocking inbound ICMP traffic.
+                        After enabling the appropriate ICMPv4 inbound rule, the router was able to successfully ping the
+                        PC.\</p>
+
+                    <p>With basic connectivity working in both directions, I moved on to SSH. My first SSH attempt
+                        failed with a key-exchange error because the version of Cisco IOS XE running on the router only
+                        offered older Diffie-Hellman key-exchange algorithms that modern OpenSSH clients no longer
+                        accept by default.\</p>
+
+                    <p>I worked around the issue by explicitly allowing the older key-exchange algorithm for this SSH
+                        connection. The next attempt produced another compatibility error, this time involving the
+                        router's older RSA host-key algorithm. I added the appropriate host-key compatibility option to
+                        the SSH command as well.\</p>
+
+                    <p>After making those adjustments, SSH reached the authentication stage. I initially became
+                        confused because the SSH prompt displayed my Windows username. I realized that SSH was
+                        attempting to use the username I had specified in the SSH command, which needs to correspond to
+                        the local administrator account configured on the Cisco router rather than my Windows account.
+                        After using the correct Cisco username and password, I successfully connected to the router over
+                        SSH.\</p>
+
+                    <p>This was a useful exercise because I encountered several problems that would not necessarily
+                        appear in a simple networking tutorial. I had to work through password recovery,
+                        configuration-register settings, Windows firewall behavior, and SSH compatibility between an
+                        older network device and a modern operating system. Each issue required looking at the actual
+                        error message and determining which layer of the connection was failing.\</p>
+
+                    <p>At the end of the session, I had a functioning Cisco ISR4331 home lab with secure remote
+                        management over SSH and a dedicated connection between my PC and the router. I also gained more
+                        practical experience troubleshooting connectivity problems instead of simply following a
+                        configuration guide.\</p>
+
+                    <p>My next goal is to continue expanding the lab by configuring additional router interfaces and
+                        eventually integrating other networking equipment. I want to use the environment for hands-on
+                        practice with routing, switching, firewalls, network troubleshooting, and security rather than
+                        simply configuring devices without a practical purpose.\</p>
+                </article>
 
                 <article class="blog-post" data-title="How I Made This Website">
                     <p class="blog-post-meta">Aug 22, 2026</p>
